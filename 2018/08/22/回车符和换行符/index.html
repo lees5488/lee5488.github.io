@@ -86,12 +86,12 @@
 <meta property="og:site_name" content="Lee5488">
 <meta property="og:description" content="最近遇到問題需要使用正則表達式，以下是總結的部分知識         转载自：uTank-木头首先介绍一下“回车”（carriage return,’\r’）和“换行”（line feed,’\n’）这两个概念的来历和区别。 在计算机还没有出现之前，有一种叫做电传打字机（Teletype Model 33）的玩意，每秒钟可以打10个字符。 但是它有一个问题，就是打完一行换行的时候，要用去0.2秒，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/uploads/uTank.JPG">
-<meta property="og:updated_time" content="2018-09-15T03:54:03.417Z">
+<meta property="og:image" content="http://yoursite.com/uploads/uTank.png">
+<meta property="og:updated_time" content="2018-09-19T02:10:49.438Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="回车符和换行符">
 <meta name="twitter:description" content="最近遇到問題需要使用正則表達式，以下是總結的部分知識         转载自：uTank-木头首先介绍一下“回车”（carriage return,’\r’）和“换行”（line feed,’\n’）这两个概念的来历和区别。 在计算机还没有出现之前，有一种叫做电传打字机（Teletype Model 33）的玩意，每秒钟可以打10个字符。 但是它有一个问题，就是打完一行换行的时候，要用去0.2秒，">
-<meta name="twitter:image" content="http://yoursite.com/uploads/uTank.JPG">
+<meta name="twitter:image" content="http://yoursite.com/uploads/uTank.png">
 
 
 
@@ -362,7 +362,7 @@
 这就是“换行”和“回车”的来历，从它们的英语名字上也可以看出一二。 
 </code></pre><a id="more"></a>
 <p>后来，计算机发明了，这两个概念也就被般到了计算机上。<br>那时，存储器很贵，一些科学家认为在每行结尾加两个字符太浪费了，加一个就可以。于是，就出现了分歧：</p>
-<p>Unix 系统里，每行结尾只有“&lt;换行&gt;”，即“\n”；<br>Windows系统里面，每行结尾是“&lt;回车&gt;&lt;换行&gt;”，即“\r\n”；<br>Mac系统里，每行结尾是“&lt;回车&gt;”，即“\r”。<br>一个直接后果是，Unix/Mac系统下的文件在Windows里打开的话，所有文字会变成一行；<br>而Windows里的文件在Unix/Mac下打开的话，在每行的结尾可能会多出一个^M符号。一些常见的转义字符如下图：<br><img src="/uploads/uTank.JPG" alt="“图片描述”"></p>
+<p>Unix 系统里，每行结尾只有“&lt;换行&gt;”，即“\n”；<br>Windows系统里面，每行结尾是“&lt;回车&gt;&lt;换行&gt;”，即“\r\n”；<br>Mac系统里，每行结尾是“&lt;回车&gt;”，即“\r”。<br>一个直接后果是，Unix/Mac系统下的文件在Windows里打开的话，所有文字会变成一行；<br>而Windows里的文件在Unix/Mac下打开的话，在每行的结尾可能会多出一个^M符号。一些常见的转义字符如下图：<br><img src="/uploads/uTank.png" alt="图片描述"></p>
 <p>需要注意的是：在Windows系统中回车键被当做\r\n 的组合来使用，当我们从键盘输入回车键时，Windows系统会把回车键当做\r\n 来处理，Unix系统只会当做\n 来处理，<br>不管在什么系统中，都可以用\n来作为一行输入结束的标记，只是在编程时我们需要注意，在Windows系统中我们会读到\r 这个字符，我们必须把\r和正常输入的字符区别开来。</p>
 <p>Windows与Unix文件格式是不同的,问题一般就是出在\r\n问题上。回车(CR)和换行(LF)符都是用来表示“下一行”的。而标准没有规定要使用哪一个。于是产生了三种不同的用法：</p>
 <p>windows采用回车+换行(CR+LG)表示下一行（亦即所谓的PC格式）<br>UNIX采用换行符（LF）表示下一行<br>MAC机采用回车符（CR）表示下一行<br>当在不同的系统间传递文件，就要涉及格式的转换。</p>
