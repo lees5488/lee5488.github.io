@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="本文是连接java1.8的在线与离线的翻译帮助文档">
+<meta name="description" content="整理一篇关于java的虚拟机的知识 参考链接你转身看不见我心疼importnew  JVM结构   主要堆的整理  垃圾回收算法     名称 内容 缺点 对象     标记清除 两个阶段：标记和清除 产生大量碎片    复制算法 内存空间分为两块，每次只用一块，剩下一块备用复制操作。 会浪费一块空间，不过由于朝生夕死的状态，并不是1:1的。伊甸园和form，to survival 一般新生代算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java api 1.8 中文 帮助文档">
-<meta property="og:url" content="http://yoursite.com/2018/08/06/帮助文档/index.html">
+<meta property="og:title" content="java垃圾回收整理">
+<meta property="og:url" content="http://yoursite.com/2018/09/26/JVM/index.html">
 <meta property="og:site_name" content="Lee5488">
-<meta property="og:description" content="本文是连接java1.8的在线与离线的翻译帮助文档">
+<meta property="og:description" content="整理一篇关于java的虚拟机的知识 参考链接你转身看不见我心疼importnew  JVM结构   主要堆的整理  垃圾回收算法     名称 内容 缺点 对象     标记清除 两个阶段：标记和清除 产生大量碎片    复制算法 内存空间分为两块，每次只用一块，剩下一块备用复制操作。 会浪费一块空间，不过由于朝生夕死的状态，并不是1:1的。伊甸园和form，to survival 一般新生代算法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-15T03:54:40.304Z">
+<meta property="og:image" content="http://yoursite.com/uploads/JVM/jvm1.jpg">
+<meta property="og:image" content="http://yoursite.com/uploads/JVM/jvm2.jpg">
+<meta property="og:updated_time" content="2018-09-26T07:20:10.183Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java api 1.8 中文 帮助文档">
-<meta name="twitter:description" content="本文是连接java1.8的在线与离线的翻译帮助文档">
+<meta name="twitter:title" content="java垃圾回收整理">
+<meta name="twitter:description" content="整理一篇关于java的虚拟机的知识 参考链接你转身看不见我心疼importnew  JVM结构   主要堆的整理  垃圾回收算法     名称 内容 缺点 对象     标记清除 两个阶段：标记和清除 产生大量碎片    复制算法 内存空间分为两块，每次只用一块，剩下一块备用复制操作。 会浪费一块空间，不过由于朝生夕死的状态，并不是1:1的。伊甸园和form，to survival 一般新生代算法">
+<meta name="twitter:image" content="http://yoursite.com/uploads/JVM/jvm1.jpg">
 
 
 
@@ -119,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/06/帮助文档/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/26/JVM/"/>
 
 
 
 
 
-  <title>Java api 1.8 中文 帮助文档 | Lee5488</title>
+  <title>java垃圾回收整理 | Lee5488</title>
   
 
 
@@ -262,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/帮助文档/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/JVM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lee5488">
@@ -279,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java api 1.8 中文 帮助文档</h1>
+          <h1 class="post-title" itemprop="name headline">java垃圾回收整理</h1>
         
 
         <div class="post-meta">
@@ -291,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-06T11:57:49+08:00">
-                2018-08-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-26T14:38:35+08:00">
+                2018-09-26
               </time>
             
 
@@ -337,10 +340,6 @@
           
 
           
-              <div class="post-description">
-                  本文是连接java1.8的在线与离线的翻译帮助文档
-              </div>
-          
 
         </div>
       </header>
@@ -355,12 +354,91 @@
       
 
       
-        <h2 id="Java1-8-帮助文档"><a href="#Java1-8-帮助文档" class="headerlink" title="Java1.8 帮助文档"></a>Java1.8 帮助文档</h2><a id="more"></a>
-<h2 id="中文-–-谷歌版"><a href="#中文-–-谷歌版" class="headerlink" title="中文 – 谷歌版"></a>中文 – 谷歌版</h2><p>在线版: <a href="http://blog.fondme.cn:8000/apidoc/jdk-1.8-google/" target="_blank" rel="noopener">http://blog.fondme.cn:8000/apidoc/jdk-1.8-google/</a><br>下载链接：<a href="https://download.csdn.net/album/detail/4437" target="_blank" rel="noopener">https://download.csdn.net/album/detail/4437</a></p>
-<h2 id="中文-–-必应版"><a href="#中文-–-必应版" class="headerlink" title="中文 – 必应版"></a>中文 – 必应版</h2><p>下载链接：<a href="https://download.csdn.net/album/detail/4437" target="_blank" rel="noopener">https://download.csdn.net/album/detail/4437</a></p>
-<h2 id="中文-–-有道版"><a href="#中文-–-有道版" class="headerlink" title="中文 – 有道版"></a>中文 – 有道版</h2><p>在线版: <a href="http://blog.fondme.cn:8000/apidoc/jdk-1.8-youdao/" target="_blank" rel="noopener">http://blog.fondme.cn:8000/apidoc/jdk-1.8-youdao/</a><br>下载链接：<a href="https://download.csdn.net/album/detail/4437" target="_blank" rel="noopener">https://download.csdn.net/album/detail/4437</a></p>
-<h2 id="中文-–-百度版"><a href="#中文-–-百度版" class="headerlink" title="中文 – 百度版"></a>中文 – 百度版</h2><p>在线版: <a href="http://blog.fondme.cn:8000/apidoc//jdk-1.8-baidu/" target="_blank" rel="noopener">http://blog.fondme.cn:8000/apidoc//jdk-1.8-baidu/</a><br>下载链接：<a href="https://download.csdn.net/album/detail/4437" target="_blank" rel="noopener">https://download.csdn.net/album/detail/4437</a></p>
-
+        <p>整理一篇关于java的虚拟机的知识</p>
+<p><strong>参考链接</strong><br><strong><a href="https://www.jianshu.com/p/17920a658328" target="_blank" rel="noopener">你转身看不见我心疼</a></strong><br><strong><a href="http://www.importnew.com/26383.html" target="_blank" rel="noopener">importnew</a></strong></p>
+<ul>
+<li><h3 id="JVM结构"><a href="#JVM结构" class="headerlink" title="JVM结构"></a>JVM结构</h3></li>
+</ul>
+<p><img src="/uploads/JVM/jvm1.jpg" alt="图片描述"><br><img src="/uploads/JVM/jvm2.jpg" alt="图片描述"></p>
+<p>主要堆的整理</p>
+<ul>
+<li><h3 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h3></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">缺点</th>
+<th style="text-align:center">对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">标记清除</td>
+<td style="text-align:center">两个阶段：标记和清除</td>
+<td style="text-align:center">产生大量碎片</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">复制算法</td>
+<td style="text-align:center">内存空间分为两块，每次只用一块，剩下一块备用复制操作。</td>
+<td style="text-align:center">会浪费一块空间，不过由于朝生夕死的状态，并不是1:1的。伊甸园和form，to survival</td>
+<td style="text-align:center">一般新生代算法</td>
+</tr>
+<tr>
+<td style="text-align:center">标记整理</td>
+<td style="text-align:center">改进的标记清除算法，把存活对象压到一块去</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">一般老年代算法</td>
+</tr>
+<tr>
+<td style="text-align:center">增量算法</td>
+<td style="text-align:center">垃圾收集的时候造成系统暂停，可以让垃圾收集线程和应用程序线程交替执行</td>
+<td style="text-align:center">线程切换和上下文转换的消耗，造成系统吞吐量的下降</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><h3 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h3></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">缺点</th>
+<th style="text-align:center">对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Serial</td>
+<td style="text-align:center">当Serial收集器想进行垃圾回收的时候，必须暂停用户的所有进程，即stop the world</td>
+<td style="text-align:center">单线程收集</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">ParNew</td>
+<td style="text-align:center">ParNew收集器是Serial收集器新生代的多线程实现，依然会stop the world</td>
+<td style="text-align:center">多线程收集</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Parallel Scavenge</td>
+<td style="text-align:center">采用复制算法的多线程新生代垃圾回收器，关注的目标是吞吐量</td>
+<td style="text-align:center">如果新生代Parallel Scavenge收集器，那么老年代除了Serial Old(PS MarkSweep)收集器外别无选择</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Parallel Old</td>
+<td style="text-align:center">Parallel Scavenge收集器的老年代版本，采用多线程和”标记－整理”算法</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CMS</span><br><span class="line">1 初始标记(initial mark)；</span><br><span class="line">2 并发标记(concurrent mark)；</span><br><span class="line">3 重新标记(remark)；</span><br><span class="line">4 并发清除(concurrent sweep) 注意初始标记和重新标记还是会stop the world</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">G1</span><br><span class="line">1 并行与并发：G1能更充分的利用CPU，多核环境下的硬件优势来缩短stop the world的停顿时间。</span><br><span class="line">2 分代收集：和其他收集器一样，分代的概念在G1中依然存在，不过G1不需要其他的垃圾回收器的配合就可以独自管理整个GC堆。</span><br><span class="line">3 空间整合：G1收集器有利于程序长时间运行，分配大对象时不会无法得到连续的空间而提前触发一次GC。</span><br><span class="line">4 可预测的非停顿：这是G1相对于CMS的另一大优势，降低停顿时间是G1和CMS共同的关注点，能让使用者明确指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -384,8 +462,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/18/markdown/" rel="next" title="markdown 语法">
-                <i class="fa fa-chevron-left"></i> markdown 语法
+              <a href="/2018/09/16/关于生命的思考/" rel="next" title="关于生命的思考">
+                <i class="fa fa-chevron-left"></i> 关于生命的思考
               </a>
             
           </div>
@@ -393,10 +471,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/08/2018-8-8感想/" rel="prev" title="2018/8/8感想">
-                2018/8/8感想 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -532,7 +606,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java1-8-帮助文档"><span class="nav-number">1.</span> <span class="nav-text">Java1.8 帮助文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文-–-谷歌版"><span class="nav-number">2.</span> <span class="nav-text">中文 – 谷歌版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文-–-必应版"><span class="nav-number">3.</span> <span class="nav-text">中文 – 必应版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文-–-有道版"><span class="nav-number">4.</span> <span class="nav-text">中文 – 有道版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文-–-百度版"><span class="nav-number">5.</span> <span class="nav-text">中文 – 百度版</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM结构"><span class="nav-number">1.</span> <span class="nav-text">JVM结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾回收算法"><span class="nav-number">2.</span> <span class="nav-text">垃圾回收算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾回收器"><span class="nav-number">3.</span> <span class="nav-text">垃圾回收器</span></a></li></ol></div>
             
 
           </div>
