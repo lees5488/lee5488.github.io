@@ -262,6 +262,344 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/冒泡排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lee5488">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee5488">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/27/冒泡排序/" itemprop="url">冒泡排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T19:38:01+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code class="bash">package com.example.study.sort;
+
+import org.springframework.util.Assert;
+import org.springframework.util.StopWatch;
+
+import java.util.stream.Stream;
+
+/**
+ *
+ * @Description : 主要用作对bubbleSort的探索，这里列出了算法，并且根据改进。
+ *
+ * 算法参考思想：《小灰的漫画算法》
+ *
+ * @author : sheen.lee
+ * @date : 19:15 2019/8/27
+ *
+ */
+public class Bubble {
+
+    /**
+     * 这里是冒泡排序，
+     *
+     * @param array
+     * @param &lt;T&gt;
+     * @<span class="built_in">return</span>
+     * @version 1.0
+     */
+    public static &lt;T extends Number &amp; Comparable&gt; T[] bubbleSort1(T[] array) {
+        Assert.notNull(array, <span class="string">"params must not be null"</span>);
+        Assert.notEmpty(array, <span class="string">"params must not be empty"</span>);
+
+        <span class="keyword">for</span> (int i = 0; i &lt; array.length - 1; i++) {
+            <span class="keyword">for</span> (int j = 0; j &lt; array.length - 1 - i; j++) {
+                T temp;
+                <span class="keyword">if</span> (array[j].compareTo(array[j + 1]) &gt; 0) {
+                    temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+        }
+        <span class="built_in">return</span> array;
+
+    }
+
+
+    /**
+     * 这里是冒泡排序，
+     * 这里用一个标识去判断是否已经是完整的排序了。
+     *
+     * @param array
+     * @param &lt;T&gt;
+     * @<span class="built_in">return</span>
+     * @version 2.0
+     */
+    public static &lt;T extends Number &amp; Comparable&gt; T[] bubbleSort2(T[] array) {
+        Assert.notNull(array, <span class="string">"params must not be null"</span>);
+        Assert.notEmpty(array, <span class="string">"params must not be empty"</span>);
+
+        <span class="keyword">for</span> (int i = 0; i &lt; array.length - 1; i++) {
+            boolean swap = <span class="literal">false</span>;
+            <span class="keyword">for</span> (int j = 0; j &lt; array.length - 1 - i; j++) {
+                T temp;
+                <span class="keyword">if</span> (array[j].compareTo(array[j + 1]) &gt; 0) {
+                    temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                    swap = <span class="literal">true</span>;
+                }
+            }
+
+            <span class="keyword">if</span> (!swap) {
+                <span class="built_in">break</span>;
+            }
+        }
+        <span class="built_in">return</span> array;
+
+    }
+
+
+    /**
+     * 这里是冒泡排序，
+     * 这里用一个标识去判断是否已经是完整的排序了。
+     * 这里去判断是否后边的数据已经排好序，下次不再比较后边的数据。
+     *
+     * @param array
+     * @param &lt;T&gt;
+     * @<span class="built_in">return</span>
+     * @version 3.0
+     */
+    public static &lt;T extends Number &amp; Comparable&gt; T[] bubbleSort3(T[] array) {
+        Assert.notNull(array, <span class="string">"params must not be null"</span>);
+        Assert.notEmpty(array, <span class="string">"params must not be empty"</span>);
+
+        int sortedBorder = array.length - 1;
+        <span class="keyword">for</span> (int i = 0; i &lt; array.length - 1; i++) {
+            boolean swap = <span class="literal">false</span>;
+            int sortedBorder1 = sortedBorder;
+            <span class="keyword">for</span> (int j = 0; j &lt; sortedBorder1; j++) {
+                T temp;
+                <span class="keyword">if</span> (array[j].compareTo(array[j + 1]) &gt; 0) {
+                    temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                    swap = <span class="literal">true</span>;
+                    sortedBorder = j;
+                }
+            }
+
+            <span class="keyword">if</span> (!swap) {
+                <span class="built_in">break</span>;
+            }
+        }
+        <span class="built_in">return</span> array;
+
+    }
+
+
+
+    public static void main(String[] args) {
+        StopWatch stopWatch = new StopWatch(<span class="string">"bubbleSort"</span>);
+
+
+        stopWatch.start(<span class="string">"bubble1"</span>);
+        <span class="keyword">for</span> (int i = 0; i &lt; 10_000; i++) {
+            //第一轮 1, 2, 3, 5, 1, 3, 1, 3, 33, 2, 45, 55, 66                           *
+            //第二轮 1, 2, 3, 1, 3, 1, 3, 5, 2, 33, 45, 55, 66                           *
+            //第三轮 1, 2, 1, 3, 1, 3, 3, 2, 5, 33, 45, 55, 66                           *
+            //第四轮 1, 1, 2, 1, 3, 3, 2, 3, 5, 33, 45, 55, 66                           *
+            //第五轮 1, 1, 1, 2, 3, 2, 3, 3, 5, 33, 45, 55, 66                           *
+            //第六轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //-----------这里其实已经完成排序----------                                   *
+            //第七轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第八轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第九轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第十轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //略...
+            bubbleSort1(Stream.of(3, 1, 2, 45, 5, 1, 3, 1, 3, 33, 2, 55, 66).toArray(Integer[]::new));
+        }
+        stopWatch.stop();
+
+
+        stopWatch.start(<span class="string">"bubble2"</span>);
+        <span class="keyword">for</span> (int i = 0; i &lt; 10_000; i++) {
+            //第一轮 1, 2, 3, 5, 1, 3, 1, 3, 33, 2, 45, 55, 66                           *
+            //第二轮 1, 2, 3, 1, 3, 1, 3, 5, 2, 33, 45, 55, 66                           *     这里和第三种方法的差距，在于后半部分已经排好序的时候
+            //第三轮 1, 2, 1, 3, 1, 3, 3, 2, 5, 33, 45, 55, 66                           *
+            //第四轮 1, 1, 2, 1, 3, 3, 2, 3, 5, 33, 45, 55, 66                           *
+            //第五轮 1, 1, 1, 2, 3, 2, 3, 3, 5, 33, 45, 55, 66                           *
+            //第六轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //-----------这里其实已经完成排序因为有配置所以这里直接跳出了--------           *
+            //第七轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第八轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第九轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第十轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //略...
+            bubbleSort2(Stream.of(3, 1, 2, 45, 5, 1, 3, 1, 3, 33, 2, 55, 66).toArray(Integer[]::new));
+        }
+        stopWatch.stop();
+
+
+        stopWatch.start(<span class="string">"bubble3"</span>);
+        <span class="keyword">for</span> (int i = 0; i &lt; 10_000; i++) {
+            //第一轮 1, 2, 3, 5, 1, 3, 1, 3, 33, 2, 45, 55, 66                           *
+            //第二轮 1, 2, 3, 1, 3, 1, 3, 5, 2, 33, 45, 55, 66                           *     直接从12跳到9,sortedBorder1 = 9
+            //第三轮 1, 2, 1, 3, 1, 3, 3, 2, 5, 33, 45, 55, 66                           *
+            //第四轮 1, 1, 2, 1, 3, 3, 2, 3, 5, 33, 45, 55, 66                           *
+            //第五轮 1, 1, 1, 2, 3, 2, 3, 3, 5, 33, 45, 55, 66                           *
+            //第六轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //-----------这里其实已经完成排序因为有配置所以这里直接跳出了--------           *
+            //第七轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第八轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第九轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //第十轮 1, 1, 1, 2, 2, 3, 3, 3, 5, 33, 45, 55, 66                           *
+            //略...
+            bubbleSort3(Stream.of(3, 1, 2, 45, 5, 1, 3, 1, 3, 33, 2, 55, 66).toArray(Integer[]::new));
+        }
+        stopWatch.stop();
+
+
+        System.out.println(stopWatch.prettyPrint());
+
+        //console
+
+        //StopWatch <span class="string">'bubbleSort'</span>: running time (millis) = 504
+        //-----------------------------------------
+        //ms     %     Task name
+        //-----------------------------------------
+        //00348  069%  bubble1
+        //00094  019%  bubble2
+        //00062  012%  bubble3
+
+
+    }
+
+}
+</code></pre>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/一生何求/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1771,181 +2109,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/markdown/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lee5488">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lee5488">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/18/markdown/" itemprop="url">markdown 语法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-18T21:03:46+08:00">
-                2018-07-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <hr>
-<h3 id="添加注释"><a href="#添加注释" class="headerlink" title="添加注释"></a>添加注释</h3><p>【使用tab键（tab键貌似不行，有时可以有时不可以） 或者1-4个空格键加又尖括号”&gt;”加1个空格实现注释的效果】，如下所示</p>
-<blockquote>
-<p>使用tab键（tab键貌似不行） 或者两个空格键加又尖括号”&gt;”实现注释的效果</p>
-<p>使用tab键（tab键貌似不行） 或者两个空格键加又尖括号”&gt;”实现注释的效果<br>使用tab键（tab键貌似不行） 或者两个空格键加又尖括号”&gt;”实现注释的效果<br>使用tab键（tab键貌似不行） 或者两个空格键加又尖括号”&gt;”实现注释的效果<br>使用tab键（tab键貌似不行） 或者两个空格键加又尖括号”&gt;”实现注释的效果</p>
-</blockquote>
-<hr>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>1.Class.forName(DRIVER)</p>
-<pre><code>&gt; 建立连接
-</code></pre><p>2.Connection conn = DriverManager.getConnection(url,user,password)</p>
-<pre><code>&gt; 用户名密码连接
-</code></pre><p>3.Result rs = conn.prepareStatement(sql).executeQuery()</p>
-<pre><code>&gt; 结果集
-</code></pre><p>4.while(rs.next()){}</p>
-<pre><code>&gt; 循环结果集
-</code></pre><p>5.PreparedStatement pst = conn.prepareStatement(sql)</p>
-<hr>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>【使用又尖括号“&gt;”操作添加注释，此处用了星号”*”来增加列表，在这里使用了table键，可以添加注释】<br>6.pst.setString(parameterIndex,value)</p>
-<ul>
-<li><p>pst.addBatch()</p>
-<blockquote>
-<p>为什么上面不能加？？？</p>
-<p>为什么上面不能加？？？</p>
-<blockquote>
-<p>再加一层</p>
-</blockquote>
-</blockquote>
-</li>
-<li>pst.executeBatch()</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/18/markdown/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2000,7 +2163,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
